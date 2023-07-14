@@ -1,5 +1,5 @@
-import MusicPage from "./examples/music/page"
+import TaskPage from './examples/tasks/page';
 
 export default function App() {
-  return <MusicPage />
+  return <TaskPage />;
 }

@@ -9,7 +9,8 @@
     "format": "npx prettier --write . --ignore-path .gitignore ",
     "taze": "taze major -I",
     "taze:minor": "taze minor -w",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
@@ -47,10 +48,16 @@
     "@tanstack/react-table": "^8.9.3",
     "@tauri-apps/api": "2.0.0-alpha.5",
     "@tauri-apps/plugin-window": "2.0.0-alpha.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "eslint": "^8.44.0",
+    "eslint-config-next": "^13.4.9",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "lucide-react": "^0.259.0",
     "nanoid": "^4.0.2",
     "next": "^13.4.9",
@@ -67,14 +74,13 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.0.2",
     "@tauri-apps/cli": "2.0.0-alpha.10",
     "@types/node": "^20.4.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.25",
-    "prettier": "^3.0.0",
+    "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.2",
     "taze": "^0.11.2",

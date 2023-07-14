@@ -1,7 +1,7 @@
 interface ExamplesLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function ExamplesLayout({ children }: ExamplesLayoutProps) {
-  return <>{children}</>
+  return <div className="flex flex-row">{children}</div>;
 }
