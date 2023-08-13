@@ -16,6 +16,7 @@ export class SettingsTable extends BaseTable<TSettingsColumns> {
         id: {
           type: 'int4',
           primaryKey: true,
+          autoIncrement: true,
         },
         lastLogin: {
           type: 'int4',

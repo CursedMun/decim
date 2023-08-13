@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/menubar';
 
 import { ModeToggle } from '../ModeToggle';
-import { ExamplesNav } from '../examples-nav';
 import { Icons } from '../icons';
 import { UserNav } from './UserMenu';
 
@@ -58,8 +57,6 @@ export function Menu() {
           <MenubarSeparator />
         </MenubarContent>
       </MenubarMenu>
-
-      <ExamplesNav />
 
       <div
         data-tauri-drag-region

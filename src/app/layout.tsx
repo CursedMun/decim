@@ -53,7 +53,7 @@ export default function MyApp({ children }: ExamplesLayoutProps) {
           <Button
             onClick={async () => {
               await writeText(resp.path);
-              alertSuccess()();
+              alertSuccess();
             }}
             variant="ghost"
             size="sm"

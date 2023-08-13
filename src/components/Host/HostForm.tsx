@@ -14,21 +14,21 @@ import {
 import Input from '@/components/ui/input';
 import { useApp } from '@/hooks/useApp';
 import { useServerAlert } from '@/hooks/useServerAlert';
-import { type TPassword } from '@/infrastructure/tables/PasswordTable';
+import { type THost } from '@/infrastructure/tables/HostsTable';
 import { cn } from '@/lib/utils';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Checkbox } from '../ui/checkbox';
 import { Textarea } from '../ui/textarea';
 
-export default function PasswordForm({
-  passwordEntity,
+export default function HostForm({
+  hostEntity,
   children,
   showDialog,
   setShowDialog,
   refetch,
 }: {
-  passwordEntity?: TPassword;
+  hostEntity?: THost;
   children: React.ReactNode;
   showDialog: boolean;
   setShowDialog: (show: boolean) => void;
@@ -36,34 +36,35 @@ export default function PasswordForm({
 }) {
   const [createAnother, setCreateAnother] = React.useState(false);
   const { alertSuccess, alertError } = useServerAlert();
-  const { password } = useApp();
+  const { host } = useApp();
 
-  console.log(passwordEntity);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: passwordEntity?.name || '',
-      password: passwordEntity?.password || '',
-      tags: passwordEntity?.tags || '',
-      description: passwordEntity?.description || '',
+      name: hostEntity?.name || '',
+      url: hostEntity?.url || '',
+      tags: hostEntity?.tags || '',
+      creds: hostEntity?.creds || '',
+      description: hostEntity?.description || '',
     },
     onSubmit: async (values) => {
-      password
+      host
         .save(
-          passwordEntity?.id
+          hostEntity?.id
             ? {
                 ...values,
-                id: passwordEntity?.id,
+                id: hostEntity?.id,
               }
             : values
         )
         .then(async () => {
-          if (!createAnother) {
+          if (!createAnother || hostEntity?.id) {
             setShowDialog(false);
           } else {
             formik.setValues({
               name: '',
-              password: '',
+              url: '',
+              creds: '',
               tags: formik.values.tags,
               description: '',
             });
@@ -75,8 +76,10 @@ export default function PasswordForm({
     },
     validationSchema: Yup.object({
       name: Yup.string().required(),
-      password: Yup.string().required(),
-      tags: Yup.string().required(),
+      url: Yup.string().required(),
+      tags: Yup.string(),
+      creds: Yup.string(),
+      description: Yup.string(),
     }),
   });
 
@@ -85,10 +88,8 @@ export default function PasswordForm({
       {children}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{passwordEntity?.id ? 'save' : 'create'}</DialogTitle>
-          <DialogDescription>
-            Add a new password to your vault.
-          </DialogDescription>
+          <DialogTitle>{hostEntity?.id ? 'save' : 'create'}</DialogTitle>
+          <DialogDescription>Add a new host to your vault.</DialogDescription>
         </DialogHeader>
         <div>
           <div className="space-y-4 py-2 pb-4">
@@ -106,7 +107,7 @@ export default function PasswordForm({
                   id={`${typedKey}-input`}
                   label={typedKey}
                   placeholder={typedKey}
-                  required={true}
+                  // required={true}
                   error={
                     (formik.touched[typedKey] && formik.errors[typedKey]) || ''
                   }
@@ -130,8 +131,8 @@ export default function PasswordForm({
               containerClassName={'max-w-full mt-6'}
             />
           </div>
-          <div className={cn(!passwordEntity?.id && 'flex justify-between')}>
-            {!passwordEntity?.id && (
+          <div className={cn(!hostEntity?.id && 'flex justify-between')}>
+            {!hostEntity?.id && (
               <div
                 className="flex items-center hover:cursor-pointer"
                 onClick={() => setCreateAnother(!createAnother)}
@@ -145,7 +146,7 @@ export default function PasswordForm({
                 a_cancel
               </Button>
               <Button onClick={() => formik.handleSubmit()}>
-                {passwordEntity?.id ? 'a_save' : 'a_create'}
+                {hostEntity?.id ? 'a_save' : 'a_create'}
               </Button>
             </DialogFooter>
           </div>

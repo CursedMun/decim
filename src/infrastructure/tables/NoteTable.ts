@@ -17,6 +17,7 @@ export class NoteTable extends BaseTable<TNote> {
         id: {
           type: 'int4',
           primaryKey: true,
+          autoIncrement: true,
         },
         title: {
           type: 'varchar',

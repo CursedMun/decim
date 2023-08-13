@@ -1,57 +1,61 @@
 import type Database from 'tauri-plugin-sql-api';
 import { BaseTable } from '../db/postgresql/base/BaseTable';
 
-export type TNote = {
+export type THost = {
   id: number;
-  title: string;
-  description: string;
+  name: string;
+  url: string;
   tags: string;
-  category: string;
+  creds?: string;
+  description?: string;
 };
-export class NoteTable extends BaseTable<TNote> {
+export class HostTable extends BaseTable<THost> {
   constructor(db: Database) {
     super(
       db,
-      'notes',
+      'hosts',
       {
         id: {
           type: 'int4',
           primaryKey: true,
+          autoIncrement: true,
         },
-        title: {
+        name: {
+          type: 'varchar',
+          notNull: true,
+        },
+        url: {
+          type: 'varchar',
+          notNull: true,
+        },
+        tags: {
           type: 'varchar',
         },
         description: {
           type: 'varchar',
         },
-        tags: {
-          type: 'varchar',
-        },
-        category: {
+        creds: {
           type: 'varchar',
         },
       },
       [
         {
           id: 1,
-          title: 'test',
-          description: 'test',
+          name: 'test',
+          url: 'artika@hgdev.me',
           tags: 'test,test1,test2',
-          category: 'test',
         },
         {
           id: 2,
-          title: 'test2',
-          description: 'test2',
+          name: 'test2',
+          url: 'test2',
           tags: 'test3,test2',
-          category: 'test2',
         },
         {
           id: 3,
-          title: 'test3',
-          description: 'test3',
+          name: 'test3',
+          url: 'test3',
           tags: 'test5,test4',
-          category: 'test3',
         },
       ],
       true

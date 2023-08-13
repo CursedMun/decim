@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
-import { ChevronLeft, Parentheses, Tags } from 'lucide-react';
+import { ChevronLeft, Parentheses, Server, Tags } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -20,6 +20,11 @@ const tabs = [
     name: 'Passwords',
     icon: Parentheses,
     href: '/passwords',
+  },
+  {
+    name: 'Hosts',
+    icon: Server,
+    href: '/hosts',
   },
 ];
 

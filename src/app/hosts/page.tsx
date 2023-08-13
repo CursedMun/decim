@@ -11,7 +11,7 @@ import {
   type ColumnDef,
   type PaginationState,
 } from '@tanstack/react-table';
-import { EyeIcon, EyeOff, MoreHorizontal, PlusSquareIcon } from 'lucide-react';
+import { Copy, MoreHorizontal, PlusSquareIcon } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import DateRender from '@/components/DateRender/DateRender';
@@ -25,11 +25,12 @@ import { useServerAlert } from '@/hooks/useServerAlert';
 import { DEFAULT_TAKE } from '@/lib/constants';
 import { FilterFieldType, type ITableFilterItem } from '@/lib/localTypes';
 
-import { default as PasswordForm } from '@/components/Password/PasswordForm';
+import { default as HostForm } from '@/components/Host/HostForm';
 import { Tag } from '@/components/Tag';
 import { Button } from '@/components/ui/button';
 import { type TFindAllResult } from '@/infrastructure/db/postgresql/base/BaseQueries';
-import { type TPassword } from '@/infrastructure/tables/PasswordTable';
+import { type THost } from '@/infrastructure/tables/HostsTable';
+import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 
 const popoverOptions = [
   {
@@ -43,17 +44,15 @@ const popoverOptions = [
   },
 ];
 const Index = () => {
-  const { password } = useApp();
+  const { host } = useApp();
 
-  const [deletingPasswordId, setDeletingPasswordId] = useState<number | null>(
-    null
-  );
-  const [showPasswordInfo, setShowPasswordInfo] = useState({
+  const [deletingHostId, setDeletingHostId] = useState<number | null>(null);
+  const [showHostInfo, setShowHostInfo] = useState({
     show: false,
-    password: undefined,
+    host: undefined,
   } as {
     show: boolean;
-    password: TPassword | undefined;
+    host: THost | undefined;
   });
 
   const { alertSuccess, alertError } = useServerAlert();
@@ -62,7 +61,7 @@ const Index = () => {
     name: { contains: string };
     tags: { contains: string };
   }>();
-  const [queryData, setQueryData] = useState<TFindAllResult<TPassword>>();
+  const [queryData, setQueryData] = useState<TFindAllResult<THost>>();
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: DEFAULT_TAKE,
@@ -70,7 +69,7 @@ const Index = () => {
 
   const refetch = useCallback(async () => {
     setIsLoading(true);
-    const data = await password
+    const data = await host
       .findAll({
         sort: {
           createdAt: 'DESC',
@@ -83,33 +82,33 @@ const Index = () => {
 
     if (data) setQueryData(data);
     setIsLoading(false);
-  }, [password, pageIndex, pageSize, filters]);
+  }, [host, pageIndex, pageSize, filters]);
 
   useEffect(() => {
     refetch();
-  }, [password, pageIndex, pageSize, filters, refetch]);
+  }, [host, pageIndex, pageSize, filters, refetch]);
 
   const onOptionClick = useCallback(
     (option: string, id: number) => {
       switch (option) {
         case 'edit':
-          const password = queryData?.edges.find((x) => x.id === id);
+          const host = queryData?.edges.find((x) => x.id === id);
 
-          setShowPasswordInfo({
+          setShowHostInfo({
             show: true,
-            password: password as unknown as TPassword,
+            host: host as unknown as THost,
           });
 
           return;
         case 'delete':
-          setDeletingPasswordId(id);
+          setDeletingHostId(id);
 
           return;
       }
     },
     [queryData?.edges]
   );
-  const columns: ColumnDef<typeof password.type>[] = useMemo(
+  const columns: ColumnDef<typeof host.type>[] = useMemo(
     () => [
       {
         accessorKey: 'row',
@@ -127,37 +126,57 @@ const Index = () => {
         cell: ({ cell }) => {
           const value = cell.getValue();
 
-          return <div>{value ? <span>{String(value)}</span> : null}</div>;
+          return (
+            <div>
+              {value ? (
+                <span className="uppercase whitespace-nowrap">
+                  {String(value)}
+                </span>
+              ) : null}
+            </div>
+          );
         },
         enableSorting: true,
       },
       {
-        accessorKey: 'password',
-        header: 'password',
+        accessorKey: 'url',
+        header: 'url',
         cell: ({ cell }) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
-          const [showPassword, setShowPassword] = useState(false);
           const value = cell.getValue() as string;
 
           return (
             <div
-              className={'flex gap-2 items-center text-center justify-between'}
+              className={'flex gap-2 items-center text-center justify-between '}
             >
-              <div>
-                {showPassword
-                  ? String(value)
-                  : new Array(String(value).length).fill('-').join('')}
-              </div>
+              <div className="whitespace-nowrap">{String(value)}</div>
               <Button
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={async () => {
+                  const text = value.includes('@')
+                    ? `ssh ${value}`
+                    : `root@${value}`;
+
+                  await writeText(text);
+                  alertSuccess(`copied ${text} to clipboard`);
+                }}
                 variant="ghost"
                 size="sm"
                 className=" p-2"
               >
-                {showPassword ? <EyeOff size={12} /> : <EyeIcon size={12} />}
+                <Copy size={16} />
+                <span className="sr-only">Copy</span>
               </Button>
             </div>
           );
+        },
+      },
+      {
+        accessorKey: 'description',
+        header: 'description',
+        cell: ({ cell }) => {
+          const value = cell.getValue();
+
+          return <div>{value ? <span>{String(value)}</span> : null}</div>;
         },
       },
       {
@@ -213,7 +232,7 @@ const Index = () => {
         },
       },
     ],
-    [onOptionClick, pageIndex]
+    [alertSuccess, onOptionClick, pageIndex]
   );
 
   const filtersConfig = useMemo(
@@ -231,17 +250,17 @@ const Index = () => {
   );
 
   const handleDeleteCheckpoint = useCallback(() => {
-    if (!deletingPasswordId) {
+    if (!deletingHostId) {
       return;
     }
-    password
-      .deleteById(deletingPasswordId)
+    host
+      .deleteById(deletingHostId)
       .then(() => {
         alertSuccess();
         refetch();
       })
       .catch(alertError);
-  }, [deletingPasswordId, password, refetch]);
+  }, [deletingHostId, host, alertError, alertSuccess, refetch]);
 
   const data = useMemo(() => queryData?.edges || [], [queryData?.edges]);
   const pagination = useMemo(
@@ -289,15 +308,15 @@ const Index = () => {
           isLoading={isLoading}
         />
         <DeleteModal
-          open={!!deletingPasswordId}
-          changeIsOpen={() => setDeletingPasswordId(null)}
+          open={!!deletingHostId}
+          changeIsOpen={() => setDeletingHostId(null)}
           onDelete={handleDeleteCheckpoint}
         />
       </div>
     );
   }, [
     columns,
-    deletingPasswordId,
+    deletingHostId,
     handleDeleteCheckpoint,
     isLoading,
     queryData?.edges?.length,
@@ -309,22 +328,22 @@ const Index = () => {
     <>
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight text-primary">
-          Passwords
+          Hosts
         </h2>
         <div className="flex items-center space-x-2">
-          <PasswordForm
+          <HostForm
             setShowDialog={(bool) =>
-              setShowPasswordInfo({ show: bool, password: undefined })
+              setShowHostInfo({ show: bool, host: undefined })
             }
-            showDialog={showPasswordInfo.show}
+            showDialog={showHostInfo.show}
             refetch={refetch}
-            passwordEntity={showPasswordInfo.password}
+            hostEntity={showHostInfo.host}
           >
             <Button
               onClick={() => {
-                setShowPasswordInfo({
+                setShowHostInfo({
                   show: true,
-                  password: undefined,
+                  host: undefined,
                 });
               }}
               className="gap-2"
@@ -332,7 +351,7 @@ const Index = () => {
               <PlusSquareIcon className="h-4 w-4" />
               Create
             </Button>
-          </PasswordForm>
+          </HostForm>
         </div>
       </div>
       <div className={'flex h-full grow flex-col gap-4 py-4'}>

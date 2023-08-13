@@ -100,9 +100,9 @@ export class BaseTable<
   private tableExists = async (tableName: string) => {
     //check if table exists as postgresql
     const query = `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = '${tableName}');`;
-    const queryResult = (await this.db.select(query)) as { name: string }[];
+    const queryResult = (await this.db.select(query)) as { exists: boolean }[];
 
-    return queryResult.length > 0;
+    return queryResult[0]?.exists ?? false;
   };
 
   private tableSqlDiffQuery = async (
@@ -221,7 +221,7 @@ export class BaseTable<
     let sql = `CREATE TABLE IF NOT EXISTS ${tableName} (`;
 
     for (const column in table) {
-      sql += `${column} ${table[column].type} ${
+      sql += `"${column}" ${table[column].type} ${
         table[column].primaryKey ? 'PRIMARY KEY' : ''
       } ${table[column].notNull ? 'NOT NULL' : ''},`;
     }
