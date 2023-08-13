@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-import { IOption } from '../Select/Select';
+import { type IOption } from '../Select/Select';
 
 export interface IPopoverOption extends IOption {
   isDanger?: boolean;
@@ -16,6 +16,7 @@ export const PopoverOptions: FC<IProps> = ({ options, onOptionClick }) => {
       onOptionClick(option);
     }
   };
+
   return (
     <>
       {options.map((option, index) => (

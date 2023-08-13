@@ -1,11 +1,11 @@
 'use client';
 
-import * as React from 'react';
-import { memo, useCallback, useRef } from 'react';
 import { type Trigger } from '@radix-ui/react-select';
 import { Check, ChevronDown, Loader2 } from 'lucide-react';
+import * as React from 'react';
+import { memo, useCallback, useRef } from 'react';
 
-import { SelectOption } from '@/lib/localTypes';
+import { type SelectOption } from '@/lib/localTypes';
 import { cn } from '@/lib/utils';
 
 import SearchInput from '../SearchInput';
@@ -59,12 +59,14 @@ const SelectMultiple = (props: IProps) => {
       if (!isSelected) {
         const reuslt =
           mode === 'single' ? [value] : [...(props.value || []), value];
+
         onValueChange && onValueChange(reuslt);
       } else {
         const result =
           mode === 'single'
             ? []
             : [...(props.value || [])].filter((i) => i.id !== value.id);
+
         onValueChange(result);
       }
     },

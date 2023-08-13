@@ -1,7 +1,7 @@
-import { type FC, type ReactNode } from 'react';
 import { Map as MapIcon, Table as TableIcon } from 'lucide-react';
+import { type FC, type ReactNode } from 'react';
 
-import { ITableFilterItem } from '@/lib/localTypes';
+import { type ITableFilterItem } from '@/lib/localTypes';
 
 import Filters from '../Filters/Filters';
 
