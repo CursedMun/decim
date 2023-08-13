@@ -16,6 +16,7 @@ const colors = {
   gmail: 'bg-red-400',
   steam: 'bg-gray-900',
   sapo: 'bg-green-800',
+  timeweb: 'bg-blue-800',
 } as Record<string, string>;
 
 export function Tag({ text }: { text: string }) {
