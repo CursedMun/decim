@@ -16,7 +16,6 @@ import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { Copy } from 'lucide-react';
-import { type Metadata } from 'next';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -136,9 +135,3 @@ export default function MyApp({ children }: ExamplesLayoutProps) {
     </html>
   );
 }
-
-export const metadata: Metadata = {
-  icons: {
-    shortcut: ['#'],
-  },
-};
