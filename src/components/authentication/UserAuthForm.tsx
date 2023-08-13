@@ -4,39 +4,25 @@ import * as React from 'react';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import Input from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import useAuth from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import { toast } from '../ui/use-toast';
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const router = useRouter();
+  const { login } = useAuth();
+
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
     const passwordInput = (event.target as any)[0] as HTMLInputElement;
     const password = passwordInput?.value;
-    if (
-      !passwordInput ||
-      !password ||
-      !password.length ||
-      password !== 'admin'
-    ) {
-      toast({
-        title: 'Error',
-        description: 'Wrong password',
-      });
-      setIsLoading(false);
-    } else {
-      localStorage.setItem('lastLogin', Date.now().toString());
-      localStorage.setItem('password', password);
-      router.replace('/');
-    }
-    console.log(passwordInput.value);
+
+    await login(password);
+    setIsLoading(false);
   }
 
   return (

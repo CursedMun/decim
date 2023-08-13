@@ -10,11 +10,63 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": "warn",
-    "@typescript-eslint/ban-types": 0,
-    "react-hooks/exhaustive-deps": 0,
-    "@next/next/no-head-element": 0,
-    "prettier/prettier": ["warn"],
-    "react/no-unescaped-entities": 0
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports"
+      }
+    ],
+    "newline-before-return": "warn",
+    "newline-after-var": "warn",
+    "lines-between-class-members": "warn",
+    "eol-last": "warn",
+    "no-console": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": "directive",
+        "next": "directive"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "react/display-name": "off",
+    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-empty-function": [
+      "warn",
+      {
+        "allow": ["constructors"]
+      }
+    ],
+    "no-empty-function": [
+      "warn",
+      {
+        "allow": ["constructors"]
+      }
+    ],
+    "prettier/prettier": [
+      "warn",
+      {
+        "singleQuote": true,
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-unnecessary-type-constraint": "off"
   }
 }

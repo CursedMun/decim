@@ -1,45 +1,86 @@
 'use client';
-import { Menu } from '@/components/Menu';
+
+import Loading from '@/components/Loading';
+import { Menu } from '@/components/Menu/Menu';
 import { StyleSwitcher } from '@/components/StyleSwitcher';
-import { TailwindIndicator } from '@/components/TailwindIndicator';
 import { ThemeProvider } from '@/components/ThemeProvier';
-import Login from '@/components/authentication/Login';
-import { Sidebar } from '@/components/global/sidebar';
-import { Progress } from '@/components/ui/progress';
+import { Sidebar } from '@/components/global/Sidebar';
+import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Toaster } from '@/components/ui/toaster';
-import { TICKS } from '@/lib/constants';
+import { initGlobalApp } from '@/hooks/useApp';
+import useAuth from '@/hooks/useAuth';
+import { useServerAlert } from '@/hooks/useServerAlert';
 import { fontInter } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
-import { Metadata } from 'next';
-import { useEffect, useState } from 'react';
+import { writeText } from '@tauri-apps/plugin-clipboard-manager';
+import { Copy } from 'lucide-react';
+import { type Metadata } from 'next';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 interface ExamplesLayoutProps {
   children: React.ReactNode;
 }
 
 export default function MyApp({ children }: ExamplesLayoutProps) {
-  const [progress, setProgress] = useState(0);
-  const [authorized, setAuthorized] = useState(false);
-  useEffect(() => {
-    setProgress(20);
-    const lastLogin = localStorage.getItem('lastLogin');
-    console.log(lastLogin);
-    if (lastLogin && parseInt(lastLogin) > Date.now() - TICKS.oneHour) {
-      console.log('got here');
-      setProgress(40);
-      const password = localStorage.getItem('password');
-      if (password && password === 'admin') {
-        setProgress(60);
-        setAuthorized(true);
-      }
-    } else {
-      setAuthorized(false);
+  const router = useRouter();
+  const path = usePathname();
+  const [isLoading, setIsLoading] = useState(true);
+  const { isAuthorized } = useAuth();
+  const { alertError, alertSuccess } = useServerAlert();
+  const initApp = useCallback(async () => {
+    if (!isLoading) {
+      setIsLoading(true);
     }
-    setProgress(100);
-    // localStorage.setItem('qwe', 'qwe');
-  }, []);
+
+    const resp = await initGlobalApp();
+
+    if (!resp) {
+      alertError('Something went wrong');
+
+      return;
+    }
+    if ('path' in resp) {
+      alertError(
+        <>
+          <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white w-[100px] h-[200px] overflow-x-scroll">
+              {JSON.stringify(resp, null, 2)}
+            </code>
+          </div>
+          <Button
+            onClick={async () => {
+              await writeText(resp.path);
+              alertSuccess()();
+            }}
+            variant="ghost"
+            size="sm"
+            className=" p-2"
+          >
+            <div className="flex flex-row gap-2">
+              <span>Copy path</span>
+              <Copy className="" />
+            </div>
+            <span className="sr-only">Copy</span>
+          </Button>
+        </>
+      );
+
+      return;
+    }
+
+    if (!isAuthorized) {
+      router.replace('/login');
+    }
+    setIsLoading(false);
+  }, [isAuthorized, isLoading, router]);
+
+  useEffect(() => {
+    initApp();
+  }, [initApp]);
+
   return (
     <html
       lang="en"
@@ -50,43 +91,47 @@ export default function MyApp({ children }: ExamplesLayoutProps) {
       <body className=" bg-transparent font-sans antialiased scrollbar-none">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Toaster />
-          <Menu authorized />
-          {progress < 100 ? (
-            <div className="w-screen h-screen justify-center">
-              <Progress value={progress} />
-            </div>
-          ) : !authorized ? (
-            <div className="w-screen h-screen">
-              <Login />
-            </div>
-          ) : (
-            <div className="h-screen">
-              <div
-                className={cn(
-                  'h-screen border-t bg-background pb-8',
-                  // "scrollbar-none"
-                  'scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md'
-                )}
-              >
-                <div className="flex w-full flex-row">
-                  <Sidebar className="static h-screen min-w-[200px] max-w-[200px] grow border-r-2 " />
-                  <div className="flex h-full w-full flex-col">
-                    <ScrollArea
-                      className="w-full gap-2"
-                      style={{
-                        height: 'calc(100vh - 4rem)',
-                      }}
-                    >
-                      <div className="overflow-y-auto">{children}</div>
-                    </ScrollArea>
-                  </div>
+
+          <div
+            className={cn(
+              'h-screen border-t bg-background pb-8',
+              // "scrollbar-none"
+              'scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md'
+            )}
+          >
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <Menu />
+                <div className="h-screen">
+                  {path === '/login' ? (
+                    <>{children}</>
+                  ) : (
+                    !!isAuthorized && (
+                      <div className="flex w-full flex-row">
+                        <Sidebar />
+                        <div className="flex h-full w-full flex-col">
+                          <ScrollArea
+                            className="w-full gap-2"
+                            style={{
+                              height: 'calc(100vh - 4rem)',
+                            }}
+                          >
+                            <div className="overflow-y-auto p-8">
+                              {children}
+                            </div>
+                          </ScrollArea>
+                        </div>
+                      </div>
+                    )
+                  )}
                 </div>
-              </div>
-            </div>
-          )}
-          <TailwindIndicator />
+              </>
+            )}
+          </div>
+          <StyleSwitcher />
         </ThemeProvider>
-        <StyleSwitcher />
       </body>
     </html>
   );

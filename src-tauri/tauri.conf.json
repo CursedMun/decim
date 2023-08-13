@@ -9,6 +9,13 @@
   "package": {
     "productName": "decim"
   },
+  "plugins": {
+    "fs": {
+      "scope": {
+        "allow": ["$APPCONFIG/*"]
+      }
+    }
+  },
   "tauri": {
     "bundle": {
       "active": true,
@@ -52,9 +59,7 @@
         {
           "scheme": "https",
           "domain": "tauri.localhost",
-          "windows": [
-            "main"
-          ],
+          "windows": ["main"],
           "plugins": [
             "clipboard",
             "path",
