@@ -1,6 +1,6 @@
 'use client';
 
-import { Maximize, Sailboat, X } from 'lucide-react';
+import { Maximize, X } from 'lucide-react';
 import { useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 
+import Logo from '@/assets/logo';
 import { ModeToggle } from '../ModeToggle';
 import { Icons } from '../icons';
 import { UserNav } from './UserMenu';
@@ -46,7 +47,7 @@ export function Menu() {
       {/* App Logo */}
       <MenubarMenu>
         <div className="inline-flex h-fit w-fit items-center text-cyan-500">
-          <Sailboat className="h-5 w-5" />
+          <Logo className="h-5 w-5" />
         </div>
       </MenubarMenu>
 

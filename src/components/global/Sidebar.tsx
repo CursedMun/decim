@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 import { ChevronLeft, Lock, Server, Tags } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 type SidebarProps = React.HTMLAttributes<HTMLDivElement>;
@@ -28,12 +28,9 @@ const tabs = [
   },
 ];
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({}: SidebarProps) {
   const path = usePathname();
-  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
-
-  console.log(path);
 
   return (
     <div

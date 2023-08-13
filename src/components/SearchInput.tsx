@@ -2,7 +2,7 @@ import { Search } from 'lucide-react';
 import { memo, type FC } from 'react';
 
 import { DEFAULT_ICON_COLOR } from '@/lib/constants';
-import { InputProps } from '@/lib/localTypes';
+import { type InputProps } from '@/lib/localTypes';
 
 import Input from './ui/input';
 
