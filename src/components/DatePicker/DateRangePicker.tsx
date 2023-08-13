@@ -1,8 +1,8 @@
 'use client';
 
+import { CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { memo, useCallback } from 'react';
-import { CalendarIcon } from 'lucide-react';
 import { type DateRange } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';

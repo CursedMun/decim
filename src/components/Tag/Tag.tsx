@@ -1,5 +1,5 @@
-import { memo, type FC, type PropsWithChildren } from 'react';
 import { cva } from 'class-variance-authority';
+import { memo, type FC, type PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/utils';
 

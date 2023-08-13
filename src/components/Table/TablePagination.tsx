@@ -1,5 +1,5 @@
-import { type FC } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { type FC } from 'react';
 
 import { Button } from '../ui/button';
 

@@ -1,17 +1,17 @@
-import * as React from 'react';
-import * as LabelPrimitive from '@radix-ui/react-label';
+import type * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
   FormProvider,
   useFormContext,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
 } from 'react-hook-form';
 
-import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 const Form = FormProvider;
 
@@ -82,6 +82,7 @@ const FormItem = React.forwardRef<
     </FormItemContext.Provider>
   );
 });
+
 FormItem.displayName = 'FormItem';
 
 const FormLabel = React.forwardRef<
@@ -99,6 +100,7 @@ const FormLabel = React.forwardRef<
     />
   );
 });
+
 FormLabel.displayName = 'FormLabel';
 
 const FormControl = React.forwardRef<
@@ -122,6 +124,7 @@ const FormControl = React.forwardRef<
     />
   );
 });
+
 FormControl.displayName = 'FormControl';
 
 const FormDescription = React.forwardRef<
@@ -139,6 +142,7 @@ const FormDescription = React.forwardRef<
     />
   );
 });
+
 FormDescription.displayName = 'FormDescription';
 
 const FormMessage = React.forwardRef<
@@ -163,15 +167,16 @@ const FormMessage = React.forwardRef<
     </p>
   );
 });
+
 FormMessage.displayName = 'FormMessage';
 
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
 };

@@ -1,5 +1,5 @@
-import { type FC } from 'react';
 import { MoreHorizontal } from 'lucide-react';
+import { type FC } from 'react';
 
 import { Popover } from '../Popover/Popover';
 import { PopoverOptions, type IPopoverOption } from '../Popover/PopoverOptions';

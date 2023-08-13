@@ -1,8 +1,8 @@
-import { type FC, type ReactNode } from 'react';
 import {
   Popover as PopoverShadcn,
   PopoverTrigger,
 } from '@radix-ui/react-popover';
+import { type FC, type ReactNode } from 'react';
 
 import { PopoverContent } from '../ui/popover';
 

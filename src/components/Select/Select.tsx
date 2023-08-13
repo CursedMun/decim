@@ -1,9 +1,3 @@
-import React, {
-  useRef,
-  type ChangeEvent,
-  type FC,
-  type ReactNode,
-} from 'react';
 import {
   Select as SelectComponent,
   SelectValue,
@@ -11,6 +5,12 @@ import {
   type Trigger,
 } from '@radix-ui/react-select';
 import { Loader2 } from 'lucide-react';
+import React, {
+  useRef,
+  type ChangeEvent,
+  type FC,
+  type ReactNode,
+} from 'react';
 
 import SearchInput from '../SearchInput';
 import { Label } from '../ui/label';
@@ -49,6 +49,7 @@ export const Select: FC<TSelectProps> = (props) => {
       props.onSearchChange(event.target.value);
     }
   };
+
   return (
     <div className={`${props.wrapContainerClassName || ''}`}>
       {!!props.label && (
@@ -61,6 +62,7 @@ export const Select: FC<TSelectProps> = (props) => {
         {...props}
         onValueChange={(value) => {
           const option = props.options.find((i) => i.value == value);
+
           props.onValueChange && props.onValueChange(value, option?.record);
         }}
       >
