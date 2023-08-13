@@ -44,7 +44,7 @@ pnpm tauri build
 
 ![tauri-ui](https://user-images.githubusercontent.com/16024979/232823230-19d22434-8e28-43c2-bb70-e45a2fc2da88.gif)
 
-> _[Next.js](https://nextjs.org/) is used in this template to facilitate quick integration of the [`/examples`](https://github.com/shadcn/ui/tree/main/apps/www/app/examples) directory of shadcn/ui. You can also easily use shadcn/ui with the [React + Vite](https://tauri.app/v1/guides/getting-started/setup/vite/) stack and any [React router library](https://react.libhunt.com/libs/router) (optionally) in Tauri._
+> _[Next.js](https://nextjs.org/) is used in this template to facilitate quick integration of the [`/examples`](https://github.com/shadcn/ui/tree/main/apps/www/app) directory of shadcn/ui. You can also easily use shadcn/ui with the [React + Vite](https://tauri.app/v1/guides/getting-started/setup/vite/) stack and any [React router library](https://react.libhunt.com/libs/router) (optionally) in Tauri._
 
 ## Customization
 

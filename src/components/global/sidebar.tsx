@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
-import { ChevronLeft, Parentheses, Server, Tags } from 'lucide-react';
+import { ChevronLeft, Lock, Server, Tags } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type SidebarProps = React.HTMLAttributes<HTMLDivElement>;
@@ -18,7 +18,7 @@ const tabs = [
   },
   {
     name: 'Passwords',
-    icon: Parentheses,
+    icon: Lock,
     href: '/passwords',
   },
   {
@@ -30,6 +30,7 @@ const tabs = [
 
 export function Sidebar({ className }: SidebarProps) {
   const path = usePathname();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   console.log(path);
@@ -72,20 +73,19 @@ export function Sidebar({ className }: SidebarProps) {
           >
             {tabs.map((tab, i) => {
               return (
-                <Button
-                  key={i}
-                  variant={path === tab.href ? 'secondary' : 'ghost'}
-                  className="mb-1 w-full justify-start"
-                >
-                  <Link
-                    href={tab.href}
-                    className="flex flex-row items-center gap-2 "
+                <Link key={i} href={tab.href}>
+                  <Button
+                    key={i}
+                    variant={path === tab.href ? 'secondary' : 'ghost'}
+                    className="mb-1 w-full justify-start"
                   >
-                    <tab.icon />
+                    <div className="flex flex-row items-center gap-2 ">
+                      <tab.icon />
 
-                    {!isCollapsed && tab.name}
-                  </Link>
-                </Button>
+                      {!isCollapsed && tab.name}
+                    </div>
+                  </Button>
+                </Link>
               );
             })}
           </ScrollArea>
