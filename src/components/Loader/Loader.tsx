@@ -1,7 +1,7 @@
-import { memo } from "react"
+import { memo } from 'react';
 
 interface IProps {
-  className?: string
+  className?: string;
 }
 
 const Loader = (props: IProps) => {
@@ -25,7 +25,7 @@ const Loader = (props: IProps) => {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  )
-}
+  );
+};
 
-export default memo(Loader)
+export default memo(Loader);

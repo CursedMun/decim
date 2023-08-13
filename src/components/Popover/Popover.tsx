@@ -1,16 +1,16 @@
-import { type FC, type ReactNode } from "react"
+import { type FC, type ReactNode } from 'react';
 import {
   Popover as PopoverShadcn,
   PopoverTrigger,
-} from "@radix-ui/react-popover"
+} from '@radix-ui/react-popover';
 
-import { PopoverContent } from "../ui/popover"
+import { PopoverContent } from '../ui/popover';
 
 interface IProps {
-  triggerComponent: ReactNode
-  contentComponent: ReactNode
-  triggerClassname?: string
-  contentClassname?: string
+  triggerComponent: ReactNode;
+  contentComponent: ReactNode;
+  triggerClassname?: string;
+  contentClassname?: string;
 }
 
 export const Popover: FC<IProps> = ({
@@ -21,12 +21,12 @@ export const Popover: FC<IProps> = ({
 }) => {
   return (
     <PopoverShadcn>
-      <PopoverTrigger className={triggerClassname || ""}>
+      <PopoverTrigger className={triggerClassname || ''}>
         {triggerComponent}
       </PopoverTrigger>
-      <PopoverContent className={contentClassname || ""}>
+      <PopoverContent className={contentClassname || ''}>
         {contentComponent}
       </PopoverContent>
     </PopoverShadcn>
-  )
-}
+  );
+};

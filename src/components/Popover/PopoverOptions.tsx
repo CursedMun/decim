@@ -1,21 +1,21 @@
-import { type FC } from 'react'
+import { type FC } from 'react';
 
-import { IOption } from '../Select/Select'
+import { IOption } from '../Select/Select';
 
 export interface IPopoverOption extends IOption {
-  isDanger?: boolean
+  isDanger?: boolean;
 }
 interface IProps {
-  options: IPopoverOption[]
-  onOptionClick?: (option: string) => void
+  options: IPopoverOption[];
+  onOptionClick?: (option: string) => void;
 }
 
 export const PopoverOptions: FC<IProps> = ({ options, onOptionClick }) => {
   const onClick = (option: string) => {
     if (!!onOptionClick) {
-      onOptionClick(option)
+      onOptionClick(option);
     }
-  }
+  };
   return (
     <>
       {options.map((option, index) => (
@@ -36,5 +36,5 @@ export const PopoverOptions: FC<IProps> = ({ options, onOptionClick }) => {
         </div>
       ))}
     </>
-  )
-}
+  );
+};

@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { type FC } from 'react';
 
 import {
   AlertDialog,
@@ -9,15 +9,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+} from '@/components/ui/alert-dialog';
 
 interface IProps {
-  open: boolean
-  changeIsOpen: (isOpen: boolean) => void
-  onCancel?: () => void
-  onDelete: () => void
-  warningText?: string
-  deleteText?: string
+  open: boolean;
+  changeIsOpen: (isOpen: boolean) => void;
+  onCancel?: () => void;
+  onDelete: () => void;
+  warningText?: string;
+  deleteText?: string;
 }
 export const DeleteModal: FC<IProps> = ({
   open,
@@ -44,5 +44,5 @@ export const DeleteModal: FC<IProps> = ({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
-}
+  );
+};

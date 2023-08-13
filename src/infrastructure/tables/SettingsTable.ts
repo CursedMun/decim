@@ -1,12 +1,12 @@
-import type Database from 'tauri-plugin-sql-api'
+import type Database from 'tauri-plugin-sql-api';
 
-import { BaseTable } from '../db/postgresql/base/BaseTable'
+import { BaseTable } from '../db/postgresql/base/BaseTable';
 
 type TSettingsColumns = {
-  id: number
-  lastLogin: number
-  masterPassword: string
-}
+  id: number;
+  lastLogin: number;
+  masterPassword: string;
+};
 export class SettingsTable extends BaseTable<TSettingsColumns> {
   constructor(db: Database) {
     super(
@@ -32,6 +32,6 @@ export class SettingsTable extends BaseTable<TSettingsColumns> {
         },
       ],
       true
-    )
+    );
   }
 }

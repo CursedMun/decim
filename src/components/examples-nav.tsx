@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { usePathname } from "next/navigation"
+import { usePathname } from 'next/navigation';
 
 import {
   MenubarContent,
@@ -8,43 +8,43 @@ import {
   MenubarRadioGroup,
   MenubarRadioItem,
   MenubarTrigger,
-} from "@/components/ui/menubar"
+} from '@/components/ui/menubar';
 
 const examples = [
   {
-    name: "Dashboard",
-    href: "/examples/dashboard",
+    name: 'Dashboard',
+    href: '/examples/dashboard',
   },
   {
-    name: "Cards",
-    href: "/examples/cards",
+    name: 'Cards',
+    href: '/examples/cards',
   },
   {
-    name: "Tasks",
-    href: "/examples/tasks",
+    name: 'Tasks',
+    href: '/examples/tasks',
   },
   {
-    name: "Playground",
-    href: "/examples/playground",
+    name: 'Playground',
+    href: '/examples/playground',
   },
   {
-    name: "Forms",
-    href: "/examples/forms",
+    name: 'Forms',
+    href: '/examples/forms',
   },
   {
-    name: "Music",
-    href: "/examples/music",
+    name: 'Music',
+    href: '/examples/music',
   },
   {
-    name: "Authentication",
-    href: "/examples/authentication",
+    name: 'Authentication',
+    href: '/examples/authentication',
   },
-]
+];
 
 interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
-  const pathname = usePathname() === "/" ? "/examples/music" : usePathname()
+  const pathname = usePathname() === '/' ? '/examples/music' : usePathname();
 
   return (
     <MenubarMenu>
@@ -66,5 +66,5 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
         </MenubarRadioGroup>
       </MenubarContent>
     </MenubarMenu>
-  )
+  );
 }

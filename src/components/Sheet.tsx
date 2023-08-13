@@ -1,16 +1,16 @@
-import { memo, type FC, type PropsWithChildren } from "react"
+import { memo, type FC, type PropsWithChildren } from 'react';
 
 import {
   SheetContent,
   SheetHeader,
   Sheet as SheetShadcn,
   SheetTitle,
-} from "./ui/sheet"
+} from './ui/sheet';
 
 interface IProps {
-  isOpen: boolean
-  changeIsOpen: (isOpen: boolean) => void
-  title?: string
+  isOpen: boolean;
+  changeIsOpen: (isOpen: boolean) => void;
+  title?: string;
 }
 
 const Sheet: FC<PropsWithChildren<IProps>> = ({
@@ -21,7 +21,7 @@ const Sheet: FC<PropsWithChildren<IProps>> = ({
 }) => {
   return (
     <SheetShadcn onOpenChange={changeIsOpen} open={isOpen}>
-      <SheetContent className={"overflow-auto"}>
+      <SheetContent className={'overflow-auto'}>
         {!!title && (
           <SheetHeader>
             <SheetTitle>{title}</SheetTitle>
@@ -30,7 +30,7 @@ const Sheet: FC<PropsWithChildren<IProps>> = ({
         {children}
       </SheetContent>
     </SheetShadcn>
-  )
-}
+  );
+};
 
-export default memo(Sheet)
+export default memo(Sheet);

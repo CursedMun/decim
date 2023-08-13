@@ -1,13 +1,13 @@
-import { type FC } from "react"
-import { MoreHorizontal } from "lucide-react"
+import { type FC } from 'react';
+import { MoreHorizontal } from 'lucide-react';
 
-import { Popover } from "../Popover/Popover"
-import { PopoverOptions, type IPopoverOption } from "../Popover/PopoverOptions"
+import { Popover } from '../Popover/Popover';
+import { PopoverOptions, type IPopoverOption } from '../Popover/PopoverOptions';
 
 interface IProps {
-  options: IPopoverOption[]
-  onOptionClick: (option: string, id: number) => void
-  id: number
+  options: IPopoverOption[];
+  onOptionClick: (option: string, id: number) => void;
+  id: number;
 }
 
 export const TableOptionsCell: FC<IProps> = ({
@@ -16,11 +16,11 @@ export const TableOptionsCell: FC<IProps> = ({
   id,
 }) => {
   return (
-    <div className={"flex w-full justify-end"}>
+    <div className={'flex w-full justify-end'}>
       <Popover
         triggerComponent={
-          <div className={"p-2.5"}>
-            <MoreHorizontal color={"#9CA4A9"} size={16} />
+          <div className={'p-2.5'}>
+            <MoreHorizontal color={'#9CA4A9'} size={16} />
           </div>
         }
         contentComponent={
@@ -29,8 +29,8 @@ export const TableOptionsCell: FC<IProps> = ({
             options={options}
           />
         }
-        contentClassname={"absolute right-[-20px] top-0"}
+        contentClassname={'absolute right-[-20px] top-0'}
       />
     </div>
-  )
-}
+  );
+};

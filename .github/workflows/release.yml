@@ -1,9 +1,9 @@
-name: "release"
+name: 'release'
 on:
   workflow_dispatch:
   push:
     tags:
-      - "*"
+      - '*'
 jobs:
   create-release:
     permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "lts/*"
+          node-version: 'lts/*'
 
       - name: Get version
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
@@ -67,7 +67,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "lts/*"
+          node-version: 'lts/*'
           cache-dependency-path: v2/package-lock.json
 
       - name: Install apt dependencies (ubuntu only)

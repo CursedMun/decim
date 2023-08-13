@@ -1,15 +1,15 @@
-import { type FC } from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { type FC } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-import { Button } from "../ui/button"
+import { Button } from '../ui/button';
 
 interface IProps {
-  currentPageSize: number
-  total: number
-  goPrevious: () => void
-  isPreviousDisabled: boolean
-  goNext: () => void
-  isNextDisabled: boolean
+  currentPageSize: number;
+  total: number;
+  goPrevious: () => void;
+  isPreviousDisabled: boolean;
+  goNext: () => void;
+  isNextDisabled: boolean;
 }
 
 export const TablePagination: FC<IProps> = ({
@@ -34,7 +34,7 @@ export const TablePagination: FC<IProps> = ({
             disabled={isPreviousDisabled}
           >
             <ArrowLeft className="h-4 w-4" />
-            <p className="p-2">{"a_back"}</p>
+            <p className="p-2">{'a_back'}</p>
           </Button>
           <Button
             variant="outline"
@@ -42,11 +42,11 @@ export const TablePagination: FC<IProps> = ({
             onClick={goNext}
             disabled={isNextDisabled}
           >
-            <p className="p-2">{"a_forward"}</p>
+            <p className="p-2">{'a_forward'}</p>
             <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

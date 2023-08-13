@@ -1,13 +1,13 @@
-import type Database from 'tauri-plugin-sql-api'
-import { BaseTable } from '../db/postgresql/base/BaseTable'
+import type Database from 'tauri-plugin-sql-api';
+import { BaseTable } from '../db/postgresql/base/BaseTable';
 
 export type TNote = {
-  id: number
-  title: string
-  description: string
-  tags: string
-  category: string
-}
+  id: number;
+  title: string;
+  description: string;
+  tags: string;
+  category: string;
+};
 export class NoteTable extends BaseTable<TNote> {
   constructor(db: Database) {
     super(
@@ -55,6 +55,6 @@ export class NoteTable extends BaseTable<TNote> {
         },
       ],
       true
-    )
+    );
   }
 }
