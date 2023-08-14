@@ -1,95 +1,63 @@
-![tauri-ui](https://github.com/agmmnn/tauri-ui/assets/16024979/28295bae-8a36-4eff-8c33-2ed2bda82d84)
+# Decim - Password Manager
 
-# Tauri UI Template
-
-Tauri UI Template is a starting point for building modern desktop applications with web technologies. Customizable UI components with [shadcn/ui](https://github.com/shadcn/ui), a lightweight and secure desktop app framework [Tauri 2](https://github.com/tauri-apps/tauri), the React-based framework [Next.js 13](https://beta.nextjs.org/docs), the utility-first CSS framework [Tailwind](https://tailwindcss.com/).
-
-> _You can download pre-built final bundles from the [Releases](https://github.com/agmmnn/tauri-ui/releases) section._
-
-## Getting Started
-
-Use [create-tauri-ui](https://github.com/agmmnn/create-tauri-ui) to quickly scaffold a Tauri UI project.
-
-```bash
-pnpm create tauri-ui
-```
-
-![](https://i.imgur.com/ONV0z45.png)
-
-<details> 
-<summary>
-Or clone the repository
-</summary>
-
-```bash
-gh repo clone agmmnn/tauri-ui
-cd tauri-ui
-
-pnpm i
-pnpm tauri dev
-pnpm tauri build
-```
-
-</details>
+Decim is a password manager that helps you securely store and manage your passwords, notes, and host information. It utilizes SQLite to store data locally, ensuring your sensitive information remains encrypted using your own personal key.
 
 ## Features
 
-- Support for dark and light modes
-- Components-based UI design
-- A draggable titlebar with minimize, maximize, and close buttons
-- [Radix UI](https://www.radix-ui.com/) for UI primitives
-- [Lucide Icons](https://lucide.dev/)
-- [Bundle size optimized](https://github.com/johnthagen/min-sized-rust) [`Cargo.toml`](/src-tauri/Cargo.toml) (.msi 2.2mb, .dmg 1.9mb, .deb 2mb)
-- [Tauri GitHub Action](https://github.com/tauri-apps/tauri-action)
+- Password Management: Safely store and manage your passwords.
+- Secure Notes: Keep your personal notes encrypted and organized.
+- Hosts Management: Store host information securely for easy access.
+- Local Storage: All data is stored locally using SQLite for enhanced security.
+- Encryption: Your passwords and sensitive information are encrypted with your unique key.
 
-![tauri-ui](https://user-images.githubusercontent.com/16024979/232823230-19d22434-8e28-43c2-bb70-e45a2fc2da88.gif)
+## Disclaimer
 
-> _[Next.js](https://nextjs.org/) is used in this template to facilitate quick integration of the [`/examples`](https://github.com/shadcn/ui/tree/main/apps/www/app) directory of shadcn/ui. You can also easily use shadcn/ui with the [React + Vite](https://tauri.app/v1/guides/getting-started/setup/vite/) stack and any [React router library](https://react.libhunt.com/libs/router) (optionally) in Tauri._
+**Decim is currently in active development, and there might be bugs and incomplete features.** Use it with caution and consider it a work-in-progress. We appreciate your understanding and patience as we work to improve and stabilize the app.
 
-## Customization
+## Contributing
 
-The template can be customized by editing the following files:
+Decim is a pet project, and we welcome contributions from the community. If you're interested in contributing, feel free to:
 
-- [src-tauri/tauri.conf.json](src-tauri/tauri.conf.json)
-- [package.json](/package.json)
-- [src-tauri/cargo.toml](src-tauri/Cargo.toml)
-- To change the app icon, update `app-icon.png`, and then run `pnpm tauri icon`. This will automatically generate icon files into _src-tauri/icons_.
+- Report issues: If you come across any bugs or have suggestions, please open an issue in the repository.
+- Submit pull requests: If you're a developer, you can help by submitting pull requests with bug fixes, improvements, or new features.
 
-## Update Components
+## Technologies Used
 
-Note that **shadcn/ui** [is not a library](https://ui.shadcn.com/docs#faqs), therefore you will need to update the components manually. To do so, you can [download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fshadcn%2Fui%2Ftree%2Fmain%2Fapps%2Fwww%2Fcomponents%2Fui) the _[shadcn/ui/apps/www/components/ui](https://github.com/shadcn/ui/tree/main/apps/www/components/ui)_ directory and paste it into _[src/components/ui](/src/components/ui)_.
+- TypeScript (ts)
+- Tauri (https://tauri.studio/): A framework for building lightweight, fast, and secure desktop applications using web technologies.
+- Next.js (https://nextjs.org/): A React framework for building server-rendered applications.
+- Tailwind CSS (https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
+- Tauri SQL API: Utilized to interact with SQLite for local data storage.
 
-## Folder Structure
+## Getting Started
 
-```js
-.
-├── next-env.d.ts
-├── next.config.js    //nextjs config file https://nextjs.org/docs/pages/api-reference/next-config-js
-├── package.json
-├── postcss.config.js
-├── README.md
-├── public
-├── src               //frontend src:
-│   ├── app           //next.js appdir https://nextjs.org/docs/app/building-your-application/routing
-│   ├── assets
-│   ├── components    //from shadcn/ui
-│   │   └── ui
-│   ├── data
-│   ├── hooks
-│   ├── lib
-│   └── styles
-├── src-tauri         //backend src:
-│   ├── build.rs
-│   ├── Cargo.lock
-│   ├── Cargo.toml    //https://doc.rust-lang.org/cargo/reference/manifest.html
-│   ├── icons         //https://tauri.app/v1/guides/features/icons/
-│   ├── src
-│   └── tauri.conf.json  //tauri config file https://next--tauri.netlify.app/next/api/config
-├── prettier.config.js     //prettier config file https://prettier.io/docs/en/configuration.html
-├── tailwind.config.js     //tailwind config file https://tailwindcss.com/docs/configuration
-└── tsconfig.json          //typescript config file https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
-```
+1. Go to the latest releases: [Decim Releases](https://github.com/CursedMun/decim/releases)
+2. Download the appropriate version for your operating system.
+3. Install Decim on your system.
+4. Configure Encryption Key: Once installed, you'll need to set up your encryption key. Locate the configuration file at `appdata/com.decim.app/config.decim`. Open it with any text editor and add your encryption key.
+5. Initial Login: The default password to log in is `admin`.
+6. Refresh the App: After adding your encryption key and logging in, you may need to refresh the app. Use `Ctrl+R` (Windows/Linux) or `Cmd+R` (Mac) to refresh.
 
-## Recommended IDE Setup
+## Current Tasks
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+### 1. Auto Update
+
+We're working on implementing an auto-update feature for Decim. This will ensure that you always have the latest version of the application without the need for manual updates. Stay tuned for this convenient feature!
+
+### 2. Login Bug Fix
+
+We are actively addressing the login bug that currently requires a manual refresh after logging in. Our goal is to provide a smooth and seamless login experience for users, eliminating the need for additional steps.
+
+### 3. Improved Configuration
+
+We understand that the current configuration process might feel a bit hacky. We're committed to enhancing this aspect of the app. Our upcoming update will make the configuration process more user-friendly, and we're also working on allowing users to input their configuration details during the initial setup.
+
+We appreciate your patience as we work on these improvements to enhance your experience with Decim. Your feedback and suggestions are valuable to us, so please feel free to contribute your ideas or report any issues on the [GitHub repository](https://github.com/CursedMun/decim/issues).
+
+---
+
+**Note:** The completion of these tasks will enhance the usability and functionality of Decim. Keep an eye on the [Decim Releases](https://github.com/CursedMun/decim/releases) page for updates and new features.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
