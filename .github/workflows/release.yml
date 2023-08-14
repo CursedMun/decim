@@ -93,12 +93,6 @@ jobs:
           mv .\nsis_tauri_utils.dll .\NSIS\Plugins\x86-unicode
           mv .\NSIS ~\AppData\Local\tauri\NSIS
           mv .\WixTools ~\AppData\Local\tauri\WixTools
-          echo "rm temp dir"
-          rm -r .\NSIS-ApplicationID
-          rm .\nsis-3.zip
-          rm .\NSIS-ApplicationID.zip
-          rm .\wix311-binaries.zip
-          rm .\temp
 
           echo "done"
       - name: Install pnpm
