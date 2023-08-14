@@ -1,4 +1,11 @@
-# Decim - Password Manager
+<div align="center">
+  <img src="https://i.ibb.co/P5rZQMd/lex9-HCj-Imgur.png" alt="Decim Logo" width="200" >
+</div>
+
+<br/>
+<div align="center">
+   <h1>Decim - Password Manager</h1>
+</div>
 
 Decim is a password manager that helps you securely store and manage your passwords, notes, and host information. It utilizes SQLite to store data locally, ensuring your sensitive information remains encrypted using your own personal key.
 
