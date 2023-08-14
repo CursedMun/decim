@@ -8,6 +8,7 @@ export async function initGlobalApp() {
   if (app) return app;
   const appInit = await configureApp();
 
+  console.log(appInit);
   if (!appInit) return null;
   if ('error' in appInit) return appInit;
   app = appInit;

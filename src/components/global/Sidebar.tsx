@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
-import { ChevronLeft, Lock, Server, Tags } from 'lucide-react';
+import { ChevronLeft, Home, Lock, Server, StickyNote } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -12,9 +12,14 @@ import { useState } from 'react';
 type SidebarProps = React.HTMLAttributes<HTMLDivElement>;
 const tabs = [
   {
-    name: 'Tasks',
-    icon: Tags,
+    name: 'Dashboard',
+    icon: Home,
     href: '/',
+  },
+  {
+    name: 'Notes',
+    icon: StickyNote,
+    href: '/notes',
   },
   {
     name: 'Passwords',

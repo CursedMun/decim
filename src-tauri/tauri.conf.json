@@ -12,11 +12,20 @@
   "plugins": {
     "fs": {
       "scope": {
-        "allow": ["$APPCONFIG/*"]
+        "allow": ["$APPCONFIG/**","$APPCONFIG/*","$APPCONFIG"]
+      }
+    },
+    "tauri-plugin-sql-api" : {
+      "scope": {
+        "allow": ["$APPCONFIG/**","$APPCONFIG/*","$APPCONFIG","**/**", "**/*", "**", "api.cursedmun.com", "api.cursedmun.com:4902"]
       }
     }
   },
   "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
@@ -54,10 +63,13 @@
       }
     },
     "security": {
+      "assetProtocol": {
+        "enable": false,
+        "scope": []
+      },
       "csp": null,
       "dangerousRemoteDomainIpcAccess": [
         {
-          "scheme": "https",
           "domain": "tauri.localhost",
           "windows": ["main"],
           "plugins": [
@@ -67,7 +79,30 @@
             "fs",
             "shell",
             "window",
-            "windows"
+            "windows",
+            "tauri-plugin-sql-api",
+            "sql-api",
+            "sql"
+          ]
+        },
+        {
+          "domain": "api.cursedmun.com",
+          "windows": ["main"],
+          "plugins": [
+            "*",
+            "tauri-plugin-sql-api",
+            "sql-api",
+            "sql"
+          ]
+        },
+        {
+          "domain": "api.cursedmun.com:4902",
+          "windows": ["main"],
+          "plugins": [
+            "*",
+            "tauri-plugin-sql-api",
+            "sql-api",
+            "sql"
           ]
         }
       ]

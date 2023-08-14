@@ -25,6 +25,7 @@ import { useServerAlert } from '@/hooks/useServerAlert';
 import { DEFAULT_TAKE } from '@/lib/constants';
 import { FilterFieldType, type ITableFilterItem } from '@/lib/localTypes';
 
+import CopyToClipboard from '@/components/CopyToClipboard';
 import { default as PasswordForm } from '@/components/Password/PasswordForm';
 import { Tag } from '@/components/Tag';
 import { Button } from '@/components/ui/button';
@@ -148,14 +149,17 @@ const Index = () => {
                   ? String(value)
                   : new Array(String(value).length).fill('-').join('')}
               </div>
-              <Button
-                onClick={() => setShowPassword(!showPassword)}
-                variant="ghost"
-                size="sm"
-                className=" p-2"
-              >
-                {showPassword ? <EyeOff size={12} /> : <EyeIcon size={12} />}
-              </Button>
+              <div>
+                <CopyToClipboard text={value} />
+                <Button
+                  onClick={() => setShowPassword(!showPassword)}
+                  variant="ghost"
+                  size="sm"
+                  className=" p-2"
+                >
+                  {showPassword ? <EyeOff size={12} /> : <EyeIcon size={12} />}
+                </Button>
+              </div>
             </div>
           );
         },

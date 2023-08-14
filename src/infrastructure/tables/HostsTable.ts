@@ -1,5 +1,5 @@
 import type Database from 'tauri-plugin-sql-api';
-import { BaseTable } from '../db/postgresql/base/BaseTable';
+import { BaseTable } from '../db/sqlite/base/BaseTable';
 
 export type THost = {
   id: number;
@@ -16,26 +16,26 @@ export class HostTable extends BaseTable<THost> {
       'hosts',
       {
         id: {
-          type: 'int4',
+          type: 'INTEGER',
           primaryKey: true,
           autoIncrement: true,
         },
         name: {
-          type: 'varchar',
+          type: 'TEXT',
           notNull: true,
         },
         url: {
-          type: 'varchar',
+          type: 'TEXT',
           notNull: true,
         },
         tags: {
-          type: 'varchar',
+          type: 'TEXT',
         },
         description: {
-          type: 'varchar',
+          type: 'TEXT',
         },
         creds: {
-          type: 'varchar',
+          type: 'TEXT',
         },
       },
       [

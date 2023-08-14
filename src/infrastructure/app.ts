@@ -7,8 +7,6 @@ const isNode = (): boolean =>
   ) === '[object process]';
 
 export type TConfig = {
-  DB_PATH: string;
-  DB_TYPE: 'sqlite' | 'postgres';
   SECRET_KEY: string;
 };
 
@@ -39,24 +37,25 @@ export async function configureApp() {
     const fileJson = await readTextFile(path);
 
     config = JSON.parse(fileJson) as TConfig;
-    if (!config.DB_PATH || !config.DB_TYPE) {
-      return { error: `Please configure your database in ${path} file`, path };
+    if (!config.SECRET_KEY) {
+      return {
+        error: `Please configure your secret key in ${path} file`,
+        path,
+      };
     }
   } else {
     config = {
-      DB_PATH: '',
-      DB_TYPE: 'postgres',
       SECRET_KEY: '',
     };
     await writeTextFile(path, JSON.stringify(config));
 
-    return { error: `Please configure your database in ${path} file`, path };
+    return { error: `Please configure your secret key in ${path} file`, path };
   }
-  console.log(config);
   app.config = config;
   if (app.tables) return app as TApp;
-  const db = await configureDatabase(config);
-  const tables = configureTables(db, config);
+  const db = await configureDatabase();
+
+  const tables = configureTables(db as any, config);
 
   app.tables = tables;
 

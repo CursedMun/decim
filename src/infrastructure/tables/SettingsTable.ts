@@ -1,6 +1,6 @@
 import type Database from 'tauri-plugin-sql-api';
 
-import { BaseTable } from '../db/postgresql/base/BaseTable';
+import { BaseTable } from '../db/sqlite/base/BaseTable';
 
 type TSettingsColumns = {
   id: number;
@@ -14,15 +14,15 @@ export class SettingsTable extends BaseTable<TSettingsColumns> {
       'settings',
       {
         id: {
-          type: 'int4',
+          type: 'INTEGER',
           primaryKey: true,
           autoIncrement: true,
         },
         lastLogin: {
-          type: 'int4',
+          type: 'INTEGER',
         },
         masterPassword: {
-          type: 'varchar',
+          type: 'TEXT',
         },
       },
       [

@@ -16,9 +16,16 @@ import { useApp } from '@/hooks/useApp';
 import { useServerAlert } from '@/hooks/useServerAlert';
 import { type TPassword } from '@/infrastructure/tables/PasswordTable';
 import { cn } from '@/lib/utils';
+import {
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@radix-ui/react-collapsible';
 import { useFormik } from 'formik';
+import { ChevronDown } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import * as Yup from 'yup';
 import { Checkbox } from '../ui/checkbox';
+import { Collapsible } from '../ui/collapsible';
 import { Textarea } from '../ui/textarea';
 
 export default function PasswordForm({
@@ -37,8 +44,8 @@ export default function PasswordForm({
   const [createAnother, setCreateAnother] = React.useState(false);
   const { alertSuccess, alertError } = useServerAlert();
   const { password } = useApp();
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  console.log(passwordEntity);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -129,6 +136,38 @@ export default function PasswordForm({
               }
               containerClassName={'max-w-full mt-6'}
             />
+            {!!passwordEntity?.id && (
+              <Collapsible
+                open={isOpen}
+                onOpenChange={setIsOpen}
+                className="space-y-2 border-secondary border bg-secondary rounded-2xl"
+              >
+                <div className="flex items-center justify-between space-x-4 px-4">
+                  <h4 className="text-sm font-semibold">
+                    Show password qr code
+                  </h4>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="sm" className="w-9 p-0">
+                      <ChevronDown
+                        className={cn(
+                          'h-4 w-4 transition-all duration-300 transform',
+                          {
+                            'rotate-180': isOpen,
+                          }
+                        )}
+                      />
+                      <span className="sr-only">Toggle</span>
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent className=" flex space-y-2 w-full justify-center self-center text-center items-center">
+                  <QRCodeSVG
+                    className="self-center my-4"
+                    value={passwordEntity.password}
+                  />
+                </CollapsibleContent>
+              </Collapsible>
+            )}
           </div>
           <div className={cn(!passwordEntity?.id && 'flex justify-between')}>
             {!passwordEntity?.id && (

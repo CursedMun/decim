@@ -31,7 +31,7 @@ export const DeleteModal: FC<IProps> = ({
     <AlertDialog open={open} onOpenChange={changeIsOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{'are_you_shure'}</AlertDialogTitle>
+          <AlertDialogTitle>{'are_you_sure'}</AlertDialogTitle>
           <AlertDialogDescription>
             {warningText ? warningText : 'are_you_shure_want_to_delete'}
           </AlertDialogDescription>

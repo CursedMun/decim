@@ -6,8 +6,8 @@ import { type TConfig } from '../app';
 import {
   type FindAllOptions,
   type FindOneOptions,
-} from '../db/postgresql/base/BaseQueries';
-import { BaseTable, type TExtTable } from '../db/postgresql/base/BaseTable';
+} from '../db/sqlite/base/BaseQueries';
+import { BaseTable, type TExtTable } from '../db/sqlite/base/BaseTable';
 export type TPassword = {
   id: number;
   name: string;
@@ -22,23 +22,23 @@ export class PasswordTable extends BaseTable<TPassword> {
       'passwords',
       {
         id: {
-          type: 'int4',
+          type: 'INTEGER',
           primaryKey: true,
           autoIncrement: true,
         },
         name: {
-          type: 'varchar',
+          type: 'TEXT',
           notNull: true,
         },
         password: {
-          type: 'varchar',
+          type: 'TEXT',
           notNull: true,
         },
         tags: {
-          type: 'varchar',
+          type: 'TEXT',
         },
         description: {
-          type: 'varchar',
+          type: 'TEXT',
         },
       },
       [
@@ -74,10 +74,7 @@ export class PasswordTable extends BaseTable<TPassword> {
     return super.save(data);
   }
 
-  public async findAll(data?: FindAllOptions<TPassword & TExtTable>): Promise<{
-    edges: (TPassword & TExtTable)[];
-    pageInfo: { total: number; limit: number; offset: number };
-  }> {
+  public async findAll(data?: FindAllOptions<TPassword & TExtTable>) {
     const result = await super.findAll(data);
 
     return {

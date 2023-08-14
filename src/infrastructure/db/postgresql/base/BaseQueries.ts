@@ -5,11 +5,13 @@ import BaseSQLQueries from './BaseSQLQueries';
 import { type TExtTable } from './BaseTable';
 
 export type TFindAllResult<T> = {
-  edges: Partial<T & TExtTable>[];
+  edges: (T & TExtTable)[];
   pageInfo: {
     total: number;
     limit: number;
     offset: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
   };
 };
 type StringKeysWithContains<T> = {
@@ -80,6 +82,7 @@ export class BaseQuery<
 
   public async findAll(data: FindAllOptions<T> = { take: this.DEFAULT_TAKE }) {
     data.take = data.take ?? this.DEFAULT_TAKE;
+    data.skip = data.skip ?? 0;
     const query = await this.findQuery(data);
 
     log({ query });
@@ -96,6 +99,11 @@ export class BaseQuery<
       .catch((err) => error({ err, query }))) as {
       count: number;
     }[];
+
+    log({
+      hasNextPage: totalResult[0].count > data.take + data.skip,
+      hasPreviousPage: data.skip > 0,
+    });
 
     return {
       edges: queryResult.map((item) => {
@@ -115,7 +123,9 @@ export class BaseQuery<
       pageInfo: {
         total: totalResult[0].count,
         limit: data.take as number,
-        offset: 0,
+        offset: data.skip,
+        hasNextPage: totalResult[0].count > data.take + data.skip,
+        hasPreviousPage: data.skip > 0,
       },
     };
   }

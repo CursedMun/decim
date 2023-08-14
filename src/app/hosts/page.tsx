@@ -11,7 +11,7 @@ import {
   type ColumnDef,
   type PaginationState,
 } from '@tanstack/react-table';
-import { Copy, MoreHorizontal, PlusSquareIcon } from 'lucide-react';
+import { MoreHorizontal, PlusSquareIcon } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import DateRender from '@/components/DateRender/DateRender';
@@ -25,12 +25,12 @@ import { useServerAlert } from '@/hooks/useServerAlert';
 import { DEFAULT_TAKE } from '@/lib/constants';
 import { FilterFieldType, type ITableFilterItem } from '@/lib/localTypes';
 
+import CopyToClipboard from '@/components/CopyToClipboard';
 import { default as HostForm } from '@/components/Host/HostForm';
 import { Tag } from '@/components/Tag';
 import { Button } from '@/components/ui/button';
 import { type TFindAllResult } from '@/infrastructure/db/postgresql/base/BaseQueries';
 import { type THost } from '@/infrastructure/tables/HostsTable';
-import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 
 const popoverOptions = [
   {
@@ -144,28 +144,14 @@ const Index = () => {
         cell: ({ cell }) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const value = cell.getValue() as string;
+          const text = value.includes('@') ? `ssh ${value}` : `root@${value}`;
 
           return (
             <div
               className={'flex gap-2 items-center text-center justify-between '}
             >
               <div className="whitespace-nowrap">{String(value)}</div>
-              <Button
-                onClick={async () => {
-                  const text = value.includes('@')
-                    ? `ssh ${value}`
-                    : `root@${value}`;
-
-                  await writeText(text);
-                  alertSuccess(`copied ${text} to clipboard`);
-                }}
-                variant="ghost"
-                size="sm"
-                className=" p-2"
-              >
-                <Copy size={16} />
-                <span className="sr-only">Copy</span>
-              </Button>
+              <CopyToClipboard text={text} />
             </div>
           );
         },

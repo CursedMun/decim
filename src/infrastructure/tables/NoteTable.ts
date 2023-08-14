@@ -1,12 +1,11 @@
 import type Database from 'tauri-plugin-sql-api';
-import { BaseTable } from '../db/postgresql/base/BaseTable';
+import { BaseTable } from '../db/sqlite/base/BaseTable';
 
 export type TNote = {
   id: number;
   title: string;
-  description: string;
-  tags: string;
-  category: string;
+  description?: string;
+  tags?: string;
 };
 export class NoteTable extends BaseTable<TNote> {
   constructor(db: Database) {
@@ -15,21 +14,19 @@ export class NoteTable extends BaseTable<TNote> {
       'notes',
       {
         id: {
-          type: 'int4',
+          type: 'INTEGER',
           primaryKey: true,
           autoIncrement: true,
         },
         title: {
-          type: 'varchar',
+          type: 'TEXT',
+          notNull: true,
         },
         description: {
-          type: 'varchar',
+          type: 'TEXT',
         },
         tags: {
-          type: 'varchar',
-        },
-        category: {
-          type: 'varchar',
+          type: 'TEXT',
         },
       },
       [
@@ -38,21 +35,18 @@ export class NoteTable extends BaseTable<TNote> {
           title: 'test',
           description: 'test',
           tags: 'test,test1,test2',
-          category: 'test',
         },
         {
           id: 2,
           title: 'test2',
           description: 'test2',
           tags: 'test3,test2',
-          category: 'test2',
         },
         {
           id: 3,
           title: 'test3',
           description: 'test3',
           tags: 'test5,test4',
-          category: 'test3',
         },
       ],
       true

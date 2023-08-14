@@ -1,113 +1,141 @@
-// import type Database from 'tauri-plugin-sql-api'
+import type Database from 'tauri-plugin-sql-api';
 
-// import BaseSQLQueries from './BaseSQLQueries'
-// import { type TExtTable } from './BaseTable'
+import { error, log } from '@/lib/logger';
+import BaseSQLQueries from './BaseSQLQueries';
+import { type TExtTable } from './BaseTable';
 
-// export type TFindAllResult<T> = {
-//   edges: Partial<T & TExtTable>[]
-//   pageInfo: {
-//     total: number
-//     limit: number
-//     offset: number
-//   }
-// }
-// type StringKeysWithContains<T> = {
-//   [Key in keyof T]: Key extends string ? { contains: string } : never
-// }
-// export type FindOneOptions<T> = {
-//   where?: Partial<T | StringKeysWithContains<T>>
-//   sort?: Partial<Record<keyof T, 'ASC' | 'DESC'>>
-// }
-// export type FindAllOptions<T> = FindOneOptions<T> & {
-//   take?: number
-//   skip?: number
-// }
-// export class BaseQuery<
-//   T extends Record<string, string | number>
-// > extends BaseSQLQueries<T> {
-//   private DEFAULT_TAKE = 100
+export type TFindAllResult<T> = {
+  edges: (T & TExtTable)[];
+  pageInfo: {
+    total: number;
+    limit: number;
+    offset: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+};
+type StringKeysWithContains<T> = {
+  [Key in keyof T]: Key extends string ? { contains: string } : never;
+};
+export type FindOneOptions<T> = {
+  where?: Partial<T | StringKeysWithContains<T>>;
+  sort?: Partial<Record<keyof T, 'ASC' | 'DESC'>>;
+};
+export type FindAllOptions<T> = FindOneOptions<T> & {
+  take?: number;
+  skip?: number;
+};
+export class BaseQuery<
+  T extends Record<string, string | number>
+> extends BaseSQLQueries<T> {
+  private DEFAULT_TAKE = 100;
 
-//   constructor(
-//     protected db: Database,
-//     protected name: string,
-//     private seedData?: Partial<Record<keyof T, string | number>>[]
-//   ) {
-//     super(name)
-//   }
+  constructor(
+    protected db: Database,
+    protected name: string,
+    private seedData?: Partial<Record<keyof T, string | number>>[]
+  ) {
+    super(name);
+  }
 
-//   protected seed = async () => {
-//     if (!this.seedData) return
-//     const query = await this.insertQuery(this.seedData)
-//     const queryResult = await this.db.execute(query)
+  protected seed = async () => {
+    if (!this.seedData) return;
+    const query = await this.insertQuery(this.seedData);
 
-//     console.log(queryResult)
+    const queryResult = await this.db
+      .execute(query)
+      .catch((err) => error({ err, query }));
 
-//     return queryResult
-//   }
+    return queryResult;
+  };
 
-//   public async createMany(data: Partial<Record<keyof T, string | number>>[]) {
-//     const query = await this.insertQuery(data)
-//     const queryResult = await this.db.execute(query)
+  public async createMany(data: Partial<Record<keyof T, string | number>>[]) {
+    const query = await this.insertQuery(data);
+    const queryResult = await this.db
+      .execute(query)
+      .catch((err) => error({ err, query }));
 
-//     return queryResult
-//   }
+    return queryResult;
+  }
 
-//   public async create(data: Partial<Record<keyof T, string | number>>) {
-//     const query = await this.insertQuery([data])
-//     const queryResult = await this.db.execute(query)
+  public async create(data: Partial<Record<keyof T, string | number>>) {
+    const query = await this.insertQuery([data]);
+    const queryResult = await this.db
+      .execute(query)
+      .catch((err) => error({ err, query }));
 
-//     return queryResult
-//   }
+    return queryResult;
+  }
 
-//   public async save(data: Partial<Record<keyof T, string | number>>) {
-//     const query = await this.saveQuery(data)
-//     const queryResult = await this.db.execute(query)
+  public async save(data: Partial<Record<keyof T, string | number>>) {
+    const query = await this.saveQuery(data);
+    const queryResult = await this.db
+      .execute(query)
+      .catch((err) => error({ err, query }));
 
-//     return queryResult
-//   }
+    return queryResult;
+  }
 
-//   public async findFirst(data: FindOneOptions<T>) {
-//     const query = await this.findQuery({ ...data, take: 1 })
-//     const queryResult = (await this.db.select(query)) as T[]
+  public async findFirst(data: FindOneOptions<T>) {
+    return (await this.findAll({ ...data, take: 1 })).edges[0];
+  }
 
-//     return queryResult[0]
-//   }
+  public async findAll(data: FindAllOptions<T> = { take: this.DEFAULT_TAKE }) {
+    data.take = data.take ?? this.DEFAULT_TAKE;
+    data.skip = data.skip ?? 0;
+    const query = await this.findQuery(data);
 
-//   public async findAll(data: FindAllOptions<T> = { take: this.DEFAULT_TAKE }) {
-//     data.take = data.take ?? this.DEFAULT_TAKE
-//     const query = await this.findQuery(data)
+    log({ query });
+    const queryResult = (await this.db
+      .select(query)
+      .catch((err) => error({ err, query }))) as T[];
 
-//     console.log(query)
-//     const queryResult = (await this.db.select(query)) as T[]
+    log({ queryResult: JSON.parse(JSON.stringify(queryResult)) });
 
-//     const total = await this.totalQuery(data.where)
+    const total = await this.totalQuery(data.where);
 
-//     console.log({
-//       totalQuery: total,
-//     })
-//     const totalResult = (await this.db.select(total)) as { count: number }[]
+    const totalResult = (await this.db
+      .select(total)
+      .catch((err) => error({ err, query }))) as {
+      count: number;
+    }[];
 
-//     console.log({
-//       query,
-//       queryResult,
-//       total,
-//       totalResult,
-//     })
+    log({
+      hasNextPage: totalResult[0].count > data.take + data.skip,
+      hasPreviousPage: data.skip > 0,
+    });
 
-//     return {
-//       edges: queryResult,
-//       pageInfo: {
-//         total: totalResult[0].count,
-//         limit: data.take as number,
-//         offset: 0,
-//       },
-//     }
-//   }
+    return {
+      edges: queryResult.map((item) => {
+        if ('createdAt' in item) {
+          (item as any).createdAt = new Date(
+            item['createdAt'].toString().replace('00:00:00', '00:00')
+          );
+        }
+        if ('updatedAt' in item) {
+          (item as any).updatedAt = new Date(
+            item['updatedAt'].toString().replace('00:00:00', '00:00')
+          );
+        }
 
-//   public async deleteById(id: number | string) {
-//     const query = await this.deleteByIdQuery(id)
-//     const queryResult = await this.db.execute(query)
+        return item;
+      }),
+      pageInfo: {
+        total: totalResult[0].count,
+        limit: data.take as number,
+        offset: data.skip,
+        hasNextPage: totalResult[0].count > data.take + data.skip,
+        hasPreviousPage: data.skip > 0,
+      },
+    };
+  }
 
-//     return queryResult
-//   }
-// }
+  public async deleteById(id: number | string) {
+    const query = await this.deleteByIdQuery(id);
+    const queryResult = await this.db
+      .execute(query)
+      .catch((err) => error({ err, query }));
+
+    return queryResult;
+  }
+}
