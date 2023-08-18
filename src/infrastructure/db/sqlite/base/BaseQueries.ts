@@ -43,7 +43,7 @@ export class BaseQuery<
     const query = await this.insertQuery(this.seedData);
 
     const queryResult = await this.db
-      .execute(query)
+      .execute(query.sql, query.values)
       .catch((err) => error({ err, query }));
 
     return queryResult;
@@ -52,7 +52,7 @@ export class BaseQuery<
   public async createMany(data: Partial<Record<keyof T, string | number>>[]) {
     const query = await this.insertQuery(data);
     const queryResult = await this.db
-      .execute(query)
+      .execute(query.sql, query.values)
       .catch((err) => error({ err, query }));
 
     return queryResult;
@@ -61,7 +61,7 @@ export class BaseQuery<
   public async create(data: Partial<Record<keyof T, string | number>>) {
     const query = await this.insertQuery([data]);
     const queryResult = await this.db
-      .execute(query)
+      .execute(query.sql, query.values)
       .catch((err) => error({ err, query }));
 
     return queryResult;
@@ -70,7 +70,7 @@ export class BaseQuery<
   public async save(data: Partial<Record<keyof T, string | number>>) {
     const query = await this.saveQuery(data);
     const queryResult = await this.db
-      .execute(query)
+      .execute(query.sql, query.values)
       .catch((err) => error({ err, query }));
 
     return queryResult;

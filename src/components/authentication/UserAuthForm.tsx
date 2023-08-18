@@ -6,12 +6,14 @@ import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import useAuth from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/provider/AuthProvider';
+import { useRouter } from 'next/navigation';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { login } = useAuth();
 
@@ -21,7 +23,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const passwordInput = (event.target as any)[0] as HTMLInputElement;
     const password = passwordInput?.value;
 
-    await login(password);
+    login(password);
+    router.replace('/');
     setIsLoading(false);
   }
 

@@ -26,14 +26,22 @@ export default class BaseSQLQueries<T extends Record<string, string | number>> {
       updatedAt: new Date(Date.now()).toISOString(),
     };
     let sql = `UPDATE ${this.tableName} SET `;
+    const values = [];
+
+    let i = 0;
 
     for (const column in data) {
-      sql += `"${column}" = '${data[column]}',`;
+      i++;
+      sql += `"${column}" = $${i},`;
+      values.push(data[column]);
     }
     sql = sql.slice(0, -1);
     sql += ` WHERE id = ${data.id};`;
 
-    return sql;
+    return {
+      sql,
+      values,
+    };
   };
 
   protected insertQuery = async (
@@ -52,12 +60,18 @@ export default class BaseSQLQueries<T extends Record<string, string | number>> {
     for (const column in data[0]) {
       sql += `"${column}",`;
     }
+    const values = [];
+
     sql = sql.slice(0, -1);
     sql += ') VALUES ';
+    let i = 0;
+
     for (const row of data) {
       sql += '(';
       for (const column in row) {
-        sql += `'${row[column]}',`;
+        i++;
+        sql += `$${i},`;
+        values.push(row[column]);
       }
       sql = sql.slice(0, -1);
       sql += '),';
@@ -66,7 +80,10 @@ export default class BaseSQLQueries<T extends Record<string, string | number>> {
     sql += ';';
     log({ sql, data });
 
-    return sql;
+    return {
+      sql,
+      values,
+    };
   };
 
   protected findQuery = async (data: FindAllOptions<T>) => {
