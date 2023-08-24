@@ -8,11 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useAuth from '@/hooks/useAuth';
+import { useAuth } from '@/provider/AuthProvider';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
+  const router = useRouter();
   const { logout, isAuthorized } = useAuth();
 
   if (!isAuthorized) return <></>;
@@ -37,7 +39,14 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            logout();
+            router.push('/login');
+          }}
+        >
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

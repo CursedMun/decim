@@ -15,7 +15,7 @@ export const useServerAlert = () => {
     toast({
       variant: 'destructive',
       title: 'error',
-      description: JSON.stringify(error),
+      description: error,
     });
   };
 
