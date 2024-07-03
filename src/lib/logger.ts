@@ -3,16 +3,20 @@
 import chalk from 'chalk';
 function getCallerName() {
   // Get stack array
-  const orig = Error.prepareStackTrace;
+  try {
+    const orig = Error.prepareStackTrace;
 
-  Error.prepareStackTrace = (error, stack) => stack;
-  const { stack } = new Error();
+    Error.prepareStackTrace = (error, stack) => stack;
+    const { stack } = new Error();
 
-  Error.prepareStackTrace = orig;
+    Error.prepareStackTrace = orig;
 
-  const caller = (stack as any)[2];
+    const caller = (stack as any)[2];
 
-  return caller ? caller.getFunctionName() : undefined;
+    return caller ? caller.getFunctionName() : undefined;
+  } catch (e) {
+    return 'Decim';
+  }
 }
 export function log(...message: any[]) {
   console.log(
